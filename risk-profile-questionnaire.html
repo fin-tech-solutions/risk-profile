@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Risk Profile Questionnaire</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --mint-primary: #2c3e50;
+            --mint-secondary: #34495e;
+            --mint-accent: #3498db;
+            --mint-accent-light: rgba(52, 152, 219, 0.2);
+            --mint-light: #ecf0f1;
+            --dark-text: #1a1a1a;
+            --light-text: #6b7280;
+            --error-light: #FEF2F2;
+            --error-accent: #F87171;
+            --shadow-accent: rgba(52, 152, 219, 0.08);
+            --border-accent: rgba(52, 152, 219, 0.1);
+            --shadow-accent-light: rgba(52, 152, 219, 0.1);
+            --shadow-accent-medium: rgba(52, 152, 219, 0.15);
+            --shadow-accent-dark: rgba(52, 152, 219, 0.3);
+            --border-light: #e5e7eb;
+            --success-color: #10b981;
+            --success-dark: #059669;
+            --shadow-success: rgba(16, 185, 129, 0.3);
+            --shadow-accent-dark: rgba(52, 152, 219, 0.3);
+            --spinner-bg: rgba(52, 152, 219, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--mint-light) 0%, #ffffff 100%);
+            min-height: 100vh;
+            color: var(--dark-text);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        /* FIXED CONTAINER STYLES */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+            min-height: calc(100vh - 100px);
+            /* Adjusted for navbar height */
+            position: relative;
+            /* Added to ensure proper stacking */
+            z-index: 1;
+            /* Lower than navbar */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--mint-primary);
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1rem;
+            color: var(--light-text);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-container {
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease 0.2s forwards;
+            position: relative;
+            /* Added for proper positioning */
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--mint-accent-light);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--mint-accent), var(--mint-secondary));
+            border-radius: 10px;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px var(--shadow-accent);
+            margin-bottom: 1.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 0.6s ease forwards;
+            border: 1px solid var(--border-accent);
+            position: relative;
+        }
+
+        .question-number {
+            color: var(--mint-accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .option {
+            position: relative;
+            cursor: pointer;
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: white;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            min-height: 60px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .option:hover {
+            border-color: var(--mint-accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px var(--shadow-accent-light);
+        }
+
+        .option.selected {
+            border-color: var(--mint-primary);
+            background: linear-gradient(135deg, var(--mint-light), white);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px var(--shadow-accent-medium);
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #d1d5db;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .option.selected .radio-custom {
+            border-color: var(--mint-primary);
+            background: var(--mint-primary);
+        }
+
+        .option.selected .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .option-text {
+            font-size: 0.95rem;
+            color: var(--dark-text);
+            font-weight: 500;
+            line-height: 1.4;
+            flex: 1;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: 100px;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--mint-primary), var(--mint-secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-accent-dark);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light-text);
+            border: 2px solid var(--border-light);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-accent-dark);
+        }
+
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color), var(--success-dark));
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-success);
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .result-actions .btn {
+            display: flex;
+            align-items: center;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .personal-details {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: var(--dark-text);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--mint-primary);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(45, 122, 107, 0.1);
+            text-align: center;
+            border: 3px solid var(--mint-accent);
+            position: relative;
+            /* Added for proper positioning */
+        }
+
+        .result-card h2 {
+            font-size: 1.8rem;
+            color: var(--mint-primary);
+            margin-bottom: 1rem;
+        }
+
+        .result-card .score {
+            font-size: 1.1rem;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+        }
+
+        .result-card .profile {
+            background: linear-gradient(135deg, var(--mint-light), white);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .result-card .profile h3 {
+            font-size: 1.3rem;
+            color: var(--mint-primary);
+            margin-bottom: 1rem;
+        }
+
+        .result-card .profile .split {
+            font-weight: 600;
+            color: var(--mint-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .inference-block {
+            background: #f8fafc;
+            border-left: 4px solid var(--mint-accent);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .inference-block h4 {
+            color: var(--mint-primary);
+            margin-bottom: 1rem;
+        }
+
+        .hidden {
+            display: none !important;
+            /* Added !important to ensure it overrides other styles */
+        }
+
+        /* Result Header - Specific to results page */
+        .result-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 1.5rem 0;
+        }
+
+        .result-header h1 {
+            font-size: 2.2rem;
+            color: var(--mint-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .result-header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Updated Result Card */
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(45, 122, 107, 0.1);
+            border: 3px solid var(--mint-accent);
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Result Summary Section */
+        .result-summary {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--mint-light);
+        }
+
+        .result-summary h2 {
+            font-size: 1.8rem;
+            color: var(--mint-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .score-label {
+            font-size: 1.2rem;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--mint-accent);
+            background: var(--mint-accent-light);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+        }
+
+        /* Profile Section */
+        .profile-section {
+            background: linear-gradient(135deg, var(--mint-light), white);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .profile-type {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-type h3 {
+            font-size: 1.5rem;
+            color: var(--mint-primary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .profile-type .split {
+            font-weight: 600;
+            color: var(--mint-secondary);
+            font-size: 1.1rem;
+        }
+
+        .profile-description {
+            text-align: left;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-description p {
+            color: var(--dark-text);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Investor Guidance Section */
+        .investor-guidance {
+            background: #f8fafc;
+            border-left: 4px solid var(--mint-accent);
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .investor-guidance h4 {
+            color: var(--mint-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .investor-guidance p {
+            color: var(--dark-text);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .investor-guidance p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Important Disclaimer */
+        .important-disclaimer {
+            background: linear-gradient(135deg, #fff3cd, #fef9e7);
+            border: 2px solid #fbbf24;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .disclaimer-icon {
+            font-size: 1.5rem;
+            color: #d97706;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .disclaimer-content {
+            flex: 1;
+            text-align: left;
+        }
+
+        .disclaimer-content p {
+            color: #92400e;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .disclaimer-content strong {
+            color: #78350f;
+        }
+
+        /* Result Actions */
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .result-actions .btn {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .result-actions .btn-secondary {
+            background: var(--mint-light);
+            color: var(--mint-primary);
+            border: 2px solid var(--mint-primary);
+        }
+
+        .result-actions .btn-secondary:hover {
+            background: var(--mint-primary);
+            color: white;
+        }
+
+        .result-actions .btn-primary {
+            background: var(--mint-accent);
+            color: white;
+        }
+
+        .result-actions .btn-primary:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .result-actions .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .result-actions .btn-success:hover {
+            background: var(--success-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hide class for toggling visibility */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .submission-message {
+                margin: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .result-card {
+                margin: 1rem;
+            }
+
+            .result-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .result-header p {
+                font-size: 1rem;
+            }
+
+            .score-display {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .important-disclaimer {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .disclaimer-icon {
+                align-self: flex-start;
+            }
+
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .result-actions .btn {
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+        }
+
+        .error {
+            border-color: #dc3545 !important;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {}
+
+        /* Enhanced Mobile Styles */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 70px;
+            }
+
+            .main-container {
+                padding: 0.75rem;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .question-container {
+                padding: 1.2rem;
+                margin-bottom: 1rem;
+            }
+
+            .question-title {
+                font-size: 1.1rem;
+            }
+
+            .option {
+                padding: 0.8rem;
+                min-height: 50px;
+            }
+
+            .option-text {
+                font-size: 0.9rem;
+            }
+
+            .radio-custom {
+                width: 20px;
+                height: 20px;
+            }
+
+            .navigation {
+                display: flex;
+                flex-direction: column-reverse;
+                gap: 10px;
+            }
+
+            .navigation button {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 1rem;
+            }
+
+            .result-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .result-actions .btn {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .progress-container {
+                position: static;
+                padding: 0.8rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .personal-details {
+                grid-template-columns: 1fr;
+            }
+
+            .result-card {
+                padding: 1.5rem;
+            }
+
+            .result-card h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Extra small devices */
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .question-container {
+                padding: 1rem;
+            }
+
+            .option {
+                padding: 0.7rem;
+            }
+
+            .option-text {
+                font-size: 0.85rem;
+            }
+
+            .btn {
+                padding: 0.8rem;
+                font-size: 0.85rem;
+            }
+
+            .result-card {
+                padding: 1.2rem;
+            }
+        }
+
+        .submission-message {
+            background: linear-gradient(135deg, var(--mint-light), white);
+            border: 2px solid var(--mint-accent);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(45, 122, 107, 0.1);
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .submission-message h3 {
+            color: var(--mint-primary);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .submission-message p {
+            color: var(--light-text);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .submission-message .icon {
+            font-size: 2.5rem;
+            color: var(--mint-accent);
+            margin-bottom: 1rem;
+        }
+
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--spinner-bg);
+            border-radius: 50%;
+            border-top-color: var(--mint-primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-container">
+        <div class="header">
+            <h1>Risk Profile Questionnaire</h1>
+            <p>Please select the most appropriate option for each question below. Your answers will determine your
+                investor risk profile. All fields are required.</p>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">
+                <span id="currentStep">1</span> of <span id="totalSteps">12</span>
+            </div>
+        </div>
+
+        <div id="questionnaire">
+            <!-- Questions will be inserted here dynamically -->
+        </div>
+
+        <div id="result" class="hidden">
+            <!-- Results will be shown here -->
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const questions = [
+            {
+                question: "How much knowledge do you have of investment markets?",
+                options: [
+                    { text: "I don't follow what goes in the market.", score: 1 },
+                    { text: "I sometimes read about the markets and know that returns can vary from year to year.", score: 2 },
+                    { text: "I read about the markets whenever I get the chance and understand that different sectors have different returns and risks.", score: 3 }
+                ]
+            },
+            {
+                question: "What are you currently looking for in an investment?",
+                options: [
+                    { text: "I want a regular income and/or want to protect my capital.", score: 1 },
+                    { text: "I want a mixture of growth and income from my investment.", score: 2 },
+                    { text: "I am looking to generate long term growth.", score: 3 }
+                ]
+            },
+            {
+                question: "How long are you planning to invest the majority of your money before spending it? (including after retirement)?",
+                options: [
+                    { text: "Less than 2 years.", score: 1 },
+                    { text: "2 to 4 years.", score: 2 },
+                    { text: "4 to 7 years.", score: 3 },
+                    { text: "more than 7 years", score: 4 }
+                ]
+            },
+            {
+                question: "An investment you have made recently in a share fund you have made recently has fallen in value. What would you do?",
+                options: [
+                    { text: "Sell the investment immediately so you don't lose any more money.", score: 1 },
+                    { text: "Do nothing because you feel that it will rise in value again.", score: 2 },
+                    { text: "Put in more money now, while values are down. You feel you'll get a bargain.", score: 3 }
+                ]
+            },
+            {
+                question: "Given the choice between a higher security and higher returns would you choose security even if this means inflation may erode the purchasing power of your investment?",
+                options: [
+                    { text: "Yes", score: 1 },
+                    { text: "Not sure", score: 2 },
+                    { text: "No", score: 3 }
+                ]
+            },
+            {
+                question: "When making an investment, return and risk usually go together. For example investments that produce above average returns have above average risk. How much of the funds you have available for investment would you be willing to place in investments where both returns and risks are expected to be above average (e.g. shares)?",
+                options: [
+                    { text: "None", score: 1 },
+                    { text: "Up to 35%", score: 2 },
+                    { text: "35%-60%", score: 3 },
+                    { text: "61%-80%", score: 4 },
+                    { text: "Over 80%", score: 5 }
+                ]
+            },
+            {
+                question: "How often would you be prepared to tolerate a negative return to receive progressively higher returns?",
+                options: [
+                    { text: "Never", score: 1 },
+                    { text: "One year in ten", score: 2 },
+                    { text: "One year in seven", score: 3 },
+                    { text: "One year in four", score: 4 },
+                    { text: "One year in three", score: 5 }
+                ]
+            },
+            {
+                question: "How would you prefer to invest your money to meet your future investment objectives?",
+                options: [
+                    { text: "I prefer to invest my money in a guaranteed arrangement, one where my money is absolutely safe even if this means I earn a lower rate and ignore inflation.", score: 1 },
+                    { text: "I prefer investments that show steady growth, however I wish to beat inflation so I'm willing to assume some risk.", score: 2 },
+                    { text: "I prefer a more aggressive mix of investments, some with moderate growth, but mostly those with higher risk and the chance of higher returns.", score: 3 }
+                ]
+            },
+            {
+                question: "Would you tolerate short term (i.e. 1-2 years) reductions to the value of your investments if there are prospects of stronger returns over the long term?",
+                options: [
+                    { text: "No", score: 1 },
+                    { text: "Not sure", score: 2 },
+                    { text: "Yes", score: 3 }
+                ]
+            },
+            {
+                question: "What degree of risk have you taken with your financial decisions in the past?",
+                options: [
+                    { text: "Very small", score: 1 },
+                    { text: "Small", score: 2 },
+                    { text: "Medium", score: 3 },
+                    { text: "Large", score: 4 },
+                    { text: "Very large", score: 5 }
+                ]
+            }
+        ];
+
+        const profiles = {
+            secure: {
+                min: 1,
+                max: 10,
+                type: "Secure",
+                split: "100% Income",
+                description: "This portfolio prioritizes capital preservation, resulting in low and consistent returns. It is not suitable for medium to long-term investors seeking capital growth."
+            },
+            defensive: {
+                min: 11,
+                max: 15,
+                type: "Defensive",
+                split: "80% Income / 20% Growth",
+                description: "This income-focused portfolio has limited growth asset exposure and prioritizes income generation, accepting some capital risk for overall growth. It suits investors seeking high income or those with a short investment horizon."
+            },
+            conservative: {
+                min: 16,
+                max: 20,
+                type: "Conservative",
+                split: "60% Income / 40% Growth",
+                description: "This portfolio targets investors seeking income with some capital growth. It's suitable for medium-term investors wanting capital stability and protection against inflation."
+            },
+            balanced: {
+                min: 21,
+                max: 30,
+                type: "Balanced",
+                split: "40% Income / 60% Growth",
+                description: "This portfolio features higher exposure to growth assets than income assets, resulting in lower short-term fluctuations in value than the other growth-based investment portfolios. It aims for medium- to long-term capital growth with balanced investments."
+            },
+            growth: {
+                min: 31,
+                max: 34,
+                type: "Growth",
+                split: "20% Income / 80% Growth",
+                description: "This growth-oriented portfolio is suited for long-term investors. A small income exposure reduces short-term fluctuations, catering to those accepting investment risk for long-term growth."
+            },
+            highGrowth: {
+                min: 35,
+                max: 100,
+                type: "High Growth",
+                split: "100% Growth",
+                description: "This 100% growth-based portfolio has no income asset exposure, prioritizing long-term capital growth. Investors should expect high short-term fluctuations and a higher risk of capital loss, accepting these trade-offs for long-term objectives."
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = [];
+        let personalDetails = {};
+        let totalSteps = questions.length + 2; // questions + personal details + result
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / totalSteps) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('currentStep').textContent = currentQuestion + 1;
+            document.getElementById('totalSteps').textContent = totalSteps;
+        }
+
+        function renderQuestion() {
+            if (currentQuestion < questions.length) {
+                const question = questions[currentQuestion];
+                const selectedAnswer = answers[currentQuestion];
+                const html = `
+                    <div class="question-container">
+                        <div class="question-number">Question ${currentQuestion + 1} of ${questions.length}</div>
+                        <div class="question-title">${question.question}</div>
+                        <div class="options-container">
+                            ${question.options.map((option, index) => {
+                    const isSelected = selectedAnswer === option.score;
+                    return `
+                                    <div class="option ${isSelected ? 'selected' : ''}" onclick="selectOption(${index})">
+                                        <input type="radio" name="q${currentQuestion}" value="${option.score}" id="q${currentQuestion}_${index}" ${isSelected ? 'checked' : ''}>
+                                        <div class="radio-custom"></div>
+                                        <div class="option-text">${option.text}</div>
+                                    </div>
+                                `;
+                }).join('')}
+                        </div>
+                        <div class="navigation">
+                            <button class="btn btn-secondary" onclick="previousQuestion()" ${currentQuestion === 0 ? 'style="visibility: hidden;"' : ''}>Previous</button>
+                            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" ${selectedAnswer ? '' : 'disabled'}>Next</button>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('questionnaire').innerHTML = html;
+            } else if (currentQuestion === questions.length) {
+                renderPersonalDetails();
+            }
+            updateProgress();
+        }
+
+        const interactedFields = new Set(); // Track which fields user has interacted with
+        function renderPersonalDetails() {
+            const html = `
+                <div class="question-container">
+                    <div class="question-number">Personal Details</div>
+                    <div class="question-title">Please provide your personal information</div>
+                    <div class="personal-details">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" value="${personalDetails.fullName || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <select id="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="male" ${personalDetails.gender === 'male' ? 'selected' : ''}>Male</option>
+                                <option value="female" ${personalDetails.gender === 'female' ? 'selected' : ''}>Female</option>
+                                <option value="other" ${personalDetails.gender === 'other' ? 'selected' : ''}>Other</option>
+                                <option value="prefer-not-to-say" ${personalDetails.gender === 'prefer-not-to-say' ? 'selected' : ''}>Prefer not to say</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="age">Age *</label>
+                            <input type="number" id="age" min="18" max="100" value="${personalDetails.age || ''}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" value="${personalDetails.phone || ''}" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" value="${personalDetails.email || ''}" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="investorProfile">What profile do you feel is most appropriate for you as an investor? (Optional)</label>
+                            <textarea id="investorProfile" placeholder="Share your thoughts about your ideal investor profile...">${personalDetails.investorProfile || ''}</textarea>
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
+                        <button class="btn btn-primary" onclick="submitQuestionnaire()" id="submitBtn">Submit</button>
+                    </div>
+                </div>
+            `;
+            document.getElementById('questionnaire').innerHTML = html;
+
+
+            // Add event listeners for validation with interaction tracking
+            const requiredFields = ['fullName', 'gender', 'age', 'phone', 'email'];
+
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+
+                if (element.tagName === 'SELECT') {
+                    // For select fields, mark as interacted on change
+                    element.addEventListener('change', () => {
+                        interactedFields.add(field);
+                        validatePersonalDetails();
+                    });
+                } else {
+                    // For input fields, mark as interacted on blur (when user leaves field)
+                    element.addEventListener('blur', () => {
+                        interactedFields.add(field);
+                        validatePersonalDetails();
+                    });
+
+                    // Validate on input only if already interacted
+                    element.addEventListener('input', () => {
+                        if (interactedFields.has(field)) {
+                            validatePersonalDetails();
+                        }
+                        validatePersonalDetails();
+                    });
+                }
+            });
+
+            // Initial validation check
+            setTimeout(validatePersonalDetails, 100);
+        }
+
+        function validatePersonalDetails() {
+            const fullName = document.getElementById('fullName').value.trim();
+            const gender = document.getElementById('gender').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            // Enhanced validation checks with error messages
+            const nameResult = validateFullName(fullName);
+            const genderResult = validateGender(gender);
+            const ageResult = validateAge(age);
+            const phoneResult = validatePhone(phone);
+            const emailResult = validateEmail(email);
+
+            const isValid = nameResult.valid && gender && ageResult.valid && phoneResult.valid && emailResult.valid;
+
+            document.getElementById('submitBtn').disabled = !isValid;
+
+            // Show validation feedback with error messages
+            updateValidationFeedback('fullName', nameResult, interactedFields);
+            updateValidationFeedback('gender', genderResult, interactedFields);
+            updateValidationFeedback('age', ageResult, interactedFields);
+            updateValidationFeedback('phone', phoneResult, interactedFields);
+            updateValidationFeedback('email', emailResult, interactedFields);
+        }
+
+        // Enhanced validation helper functions with error messages
+        function validateFullName(name) {
+            if (!name) {
+                return { valid: false, message: 'Name is required' };
+            }
+
+            if (name.length < 2) {
+                return { valid: false, message: 'Name must be at least 2 characters long' };
+            }
+
+            if (name.length > 100) {
+                return { valid: false, message: 'Name must be less than 100 characters' };
+            }
+
+            const nameRegex = /^[a-zA-Z\s'-]+$/;
+            if (!nameRegex.test(name)) {
+                return { valid: false, message: 'Name can only contain letters, spaces, hyphens, and apostrophes' };
+            }
+
+            // const nameParts = name.split(' ').filter(part => part.length > 0);
+            // if (nameParts.length < 2) {
+            //     return { valid: false, message: 'Please enter both first and last name' };
+            // }
+
+            return { valid: true, message: '' };
+        }
+
+        function validateGender(gender) {
+            if (!gender) {
+                return { valid: false, message: 'Please select your gender' };
+            }
+
+            const validGenders = ['male', 'female', 'other', 'prefer-not-to-say'];
+            if (!validGenders.includes(gender)) {
+                return { valid: false, message: 'Please select a valid gender option' };
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        function validateAge(age) {
+            if (!age) {
+                return { valid: false, message: 'Age is required' };
+            }
+
+            const ageNum = parseInt(age);
+            if (isNaN(ageNum)) {
+                return { valid: false, message: 'Please enter a valid age' };
+            }
+
+            if (ageNum < 18) {
+                return { valid: false, message: 'You must be at least 18 years old' };
+            }
+
+            if (ageNum > 120) {
+                return { valid: false, message: 'Please enter a valid age (maximum 120)' };
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        function validatePhone(phone) {
+            if (!phone) {
+                return { valid: false, message: 'Phone number is required' };
+            }
+
+            const cleanPhone = phone.replace(/\D/g, '');
+
+            if (cleanPhone.length < 10) {
+                return { valid: false, message: 'Phone number must be at least 10 digits' };
+            }
+
+            if (cleanPhone.length > 15) {
+                return { valid: false, message: 'Phone number must be less than 16 digits' };
+            }
+
+            // Check for obviously invalid patterns
+            if (/^0+$/.test(cleanPhone) || /^1+$/.test(cleanPhone) || /^(\d)\1+$/.test(cleanPhone)) {
+                return { valid: false, message: 'Please enter a valid phone number' };
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        function validateEmail(email) {
+            if (!email) {
+                return { valid: false, message: 'Email address is required' };
+            }
+
+            if (email.length > 254) {
+                return { valid: false, message: 'Email address is too long' };
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return { valid: false, message: 'Please enter a valid email address' };
+            }
+
+            const domain = email.split('@')[1];
+            const validDomainRegex = /^[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9]*\.[a-zA-Z]{2,}$/;
+
+            if (!validDomainRegex.test(domain)) {
+                return { valid: false, message: 'Please enter a valid email domain' };
+            }
+
+            return { valid: true, message: '' };
+        }
+
+        // Visual feedback function with error messages
+        function updateValidationFeedback(fieldId, validationResult, interactedFields) {
+            const field = document.getElementById(fieldId);
+
+            // Remove any existing error message
+            const existingError = field.parentNode.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Remove error class
+            field.classList.remove('error');
+
+            // Only show error if field has been interacted with AND is invalid
+            if (!interactedFields.has(fieldId) || validationResult.valid) {
+                return;
+            }
+
+
+            if (validationResult.message) {
+
+                // Add error class and message
+                field.classList.add('error');
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = validationResult.message;
+                field.parentNode.appendChild(errorDiv);
+            }
+        }
+
+        function selectOption(optionIndex) {
+            // Remove previous selection
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+
+            // Add selection to clicked option
+            const selectedOption = document.querySelectorAll('.option')[optionIndex];
+            selectedOption.classList.add('selected');
+
+            // Store the answer
+            answers[currentQuestion] = questions[currentQuestion].options[optionIndex].score;
+
+            // Enable next button
+            document.getElementById('nextBtn').disabled = false;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length) {
+                currentQuestion++;
+                setTimeout(renderQuestion, 100);
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                setTimeout(renderQuestion, 100);
+            }
+        }
+
+        async function submitQuestionnaire() {
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading-spinner"></div>Submitting...';
+            submitBtn.disabled = true;
+
+            // Collect personal details
+            personalDetails = {
+                fullName: document.getElementById('fullName').value.trim(),
+                gender: document.getElementById('gender').value,
+                age: parseInt(document.getElementById('age').value),
+                phone: document.getElementById('phone').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                investorProfile: document.getElementById('investorProfile').value.trim()
+            };
+
+            // Calculate total score
+            const totalScore = answers.reduce((sum, score) => sum + score, 0);
+
+            // Determine profile
+            let profile;
+            for (const [key, value] of Object.entries(profiles)) {
+                if (totalScore >= value.min && totalScore <= value.max) {
+                    profile = value;
+                    break;
+                }
+            }
+
+            // Prepare data for submission
+            const submissionData = {
+                personalDetails: personalDetails,
+                answers: answers,
+                questionsAndAnswers: answers.map((score, index) => ({
+                    question: questions[index].question,
+                    selectedOption: questions[index].options.find(opt => opt.score === score)?.text || '',
+                    score: score
+                })),
+                riskProfile: {
+                    totalScore: totalScore,
+                    profileType: profile.type,
+                    profileSplit: profile.split,
+                    profileDescription: profile.description
+                },
+                submissionTimestamp: new Date().toISOString()
+            };
+
+            try {
+                // Submit data to server
+                const response = await fetch('https://mintfinancials.in/risk-profile-handler.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(submissionData)
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    window.location.href = result.signingUrl;   // <<< Immediate redirect to Leegality
+                } else {
+                    alert('Error: ' + result.message);
+                }
+
+                // if (!response.ok) {
+                //     throw new Error(`Server responded with status: ${response.status}`);
+                // }
+
+                // const result = await response.json();
+                // console.log('Submission successful:', result);
+
+                // // Show success and results
+                // currentQuestion++;
+                // showResult(totalScore, profile, true); // Pass true to indicate successful submission
+
+            } catch (error) {
+                console.error('Submission error:', error);
+
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+
+                // Show error message
+                alert('There was an issue submitting your data. Please try again or contact support if the problem persists.');
+
+                // Still show results locally even if submission failed
+                currentQuestion++;
+                showResult(totalScore, profile, false); // Pass false to indicate submission failed
+            }
+        }
+
+
+        function showResult(score, profile, submissionSuccess = true) {
+            document.getElementById('questionnaire').classList.add('hidden');
+            // Hide the main header when showing results
+            document.querySelector('.header').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+
+            const submissionMessage = submissionSuccess ? `
+        <div class="submission-message">
+            <div class="icon">✓</div>
+            <h3>Thank You for Completing Our Risk Assessment!</h3>
+            <p>Your responses have been successfully recorded and our financial advisory team will review your profile. We will get back to you shortly with personalized investment recommendations tailored to your risk tolerance and financial goals.</p>
+        </div>
+    ` : `
+        <div class="submission-message" style="border-color: #fbbf24; background: linear-gradient(135deg, #fef3c7, white);">
+            <div class="icon" style="color: #f59e0b;">⚠</div>
+            <h3>Assessment Complete - Submission Issue</h3>
+            <p>Your risk assessment has been completed, but there was a technical issue saving your data. Please contact us directly or try submitting again. Your results are displayed below.</p>
+        </div>
+    `;
+
+            const html = `
+            <div class="result-header">
+    <h1>Your Investment Risk Profile</h1>
+    <p>Based on your responses, here's your personalized risk assessment and investment recommendations.</p>
+</div>
+        ${submissionMessage}
+        <div class="result-card">
+            <div class="result-summary">
+                <h2>Your Risk Profile Result</h2>
+                <div class="score-display">
+                    <span class="score-label">Total Score:</span>
+                    <span class="score-value">${score} points</span>
+                </div>
+            </div>
+            <div class="profile-section">
+                <div class="profile-type">
+                    <h3>${profile.type} Investor</h3>
+                    <div class="split">${profile.split}</div>
+                </div>
+                <div class="profile-description">
+                    <p>${profile.description}</p>
+                </div>
+            </div>
+            <div class="investor-guidance">
+                <h4>What type of investor are you?</h4>
+                <p>After completing the questionnaire, reflect on the investment type descriptions. If your results suggest a balanced portfolio but you prefer the appeal of a "high growth" investor, consider adjusting your profile to "high growth" or "growth to high growth."</p>
+            </div>
+            
+            <div class="important-disclaimer">
+                <div class="disclaimer-icon">ⓘ</div>
+                <div class="disclaimer-content">
+                    <p><strong>Remember, the questionnaire is just a guide.</strong>If you're uncomfortable with the suggested profile or have different preferences from your partner, you can start with a lower risk profile and reassess later. However, choosing a lower risk means reducing your long-term expectations.</p>
+                </div>
+            </div>
+            <div class="result-actions">
+                <button class="btn btn-secondary" onclick="goBackToEdit()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                    Edit Answers
+                </button>
+                <button class="btn btn-primary" onclick="restartQuestionnaire()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M1 4v6h6"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                    Start Over
+                </button>
+                <button class="btn btn-success" onclick="goToHomePage()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    Go to Home
+                </button>
+            </div>
+        </div>
+    `;
+
+            document.getElementById('result').innerHTML = html;
+
+            // Update progress to 100%
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('currentStep').textContent = totalSteps;
+        }
+
+        function goBackToEdit() {
+            // Go back to the first question to allow editing
+            currentQuestion = 0;
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('questionnaire').classList.remove('hidden');
+            document.querySelector('.header').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function restartQuestionnaire() {
+            // Reset all data and start over
+            currentQuestion = 0;
+            answers = [];
+            personalDetails = {};
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('questionnaire').classList.remove('hidden');
+            document.querySelector('.header').classList.remove('hidden');
+            renderQuestion();
+        }
+
+        function goToHomePage() {
+            window.location.href = '/mint-financials.html'; // Uncomment this line and set your home page URL
+        }
+
+        // Initialize the questionnaire
+        renderQuestion();
+    </script>
+</body>
+
+</html>
