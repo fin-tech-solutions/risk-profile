@@ -1260,12 +1260,8 @@
 
             const cleanPhone = phone.replace(/\D/g, '');
 
-            if (cleanPhone.length < 10) {
-                return { valid: false, message: 'Phone number must be at least 10 digits' };
-            }
-
-            if (cleanPhone.length > 15) {
-                return { valid: false, message: 'Phone number must be less than 16 digits' };
+            if (cleanPhone.length < 10 || cleanPhone.length > 10) {
+                return { valid: false, message: 'Phone number must be exactly 10 digits' };
             }
 
             // Check for obviously invalid patterns
