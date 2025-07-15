@@ -1119,10 +1119,6 @@
                             <label for="email">Email *</label>
                             <input type="email" id="email" value="${personalDetails.email || ''}" required>
                         </div>
-                        <div class="form-group full-width">
-                            <label for="investorProfile">What profile do you feel is most appropriate for you as an investor? (Optional)</label>
-                            <textarea id="investorProfile" placeholder="Share your thoughts about your ideal investor profile...">${personalDetails.investorProfile || ''}</textarea>
-                        </div>
                     </div>
                     <div class="navigation">
                         <button class="btn btn-secondary" onclick="previousQuestion()">Previous</button>
@@ -1368,8 +1364,7 @@
                 gender: document.getElementById('gender').value,
                 age: parseInt(document.getElementById('age').value),
                 phone: document.getElementById('phone').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                investorProfile: document.getElementById('investorProfile').value.trim()
+                email: document.getElementById('email').value.trim()
             };
 
             // Calculate total score
