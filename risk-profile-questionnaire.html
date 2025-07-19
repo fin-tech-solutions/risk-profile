@@ -960,7 +960,17 @@
             border: 1px solid var(--border-accent);
             border-radius: 10px;
         }
+        .what-next-section .badge.bg-success {
+            background-color: var(--success-color) !important;
+        }
         
+        .what-next-section .badge.bg-primary {
+            background-color: var(--mint-accent) !important;
+        }
+        
+        .what-next-section .badge.bg-secondary {
+            background-color: var(--mint-secondary) !important;
+        }
         .what-next-section ul li {
             color: var(--dark-text);
             margin-bottom: 0.25rem;
@@ -1027,9 +1037,18 @@
     <div class="what-next-section mt-4 p-3 rounded">
         <p class="mb-2"><strong>What's Next?</strong></p>
         <ul class="list-unstyled mb-0">
-            <li>✅ Check your email for the detailed risk assessment report</li>
-            <li>📞 Our team will contact you within 2-3 business days</li>
-            <li>💼 We'll discuss personalized investment strategies</li>
+            <li class="mb-2">
+                <span class="badge bg-success rounded-pill me-2">1</span>
+                <strong>Email Confirmation:</strong> Your detailed risk assessment report has been sent to your inbox
+            </li>
+            <li class="mb-2">
+                <span class="badge bg-primary rounded-pill me-2">2</span>
+                <strong>Advisory Consultation:</strong> Our team will reach out within 2-3 business days to discuss your profile
+            </li>
+            <li class="mb-0">
+                <span class="badge bg-secondary rounded-pill me-2">3</span>
+                <strong>Portfolio Strategy:</strong> We'll develop personalized investment recommendations aligned with your goals
+            </li>
         </ul>
     </div>
     
