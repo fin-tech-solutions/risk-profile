@@ -1428,7 +1428,7 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    if (result.signingUrl) {
+                    if (result.signingUrl && result.signingUrl !== null && result.signingUrl !== '') {
                         window.location.href = result.signingUrl; // Redirect to leegality if directly it. 
                     } else {
                         // Show thank you message on the same page
