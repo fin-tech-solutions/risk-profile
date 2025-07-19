@@ -1426,17 +1426,6 @@
                     },
                     body: JSON.stringify(submissionData)
                 });
-const text = await response.text();
-console.log("Raw response:", text);
-
-let tempresult;
-try {
-    tempresult = JSON.parse(text);
-} catch (e) {
-    console.error("Failed to parse JSON:", e);
-    alert("Invalid response received from server");
-    return;
-}
                 const result = await response.json();
                 if (result.success) {
                     if (result.signingUrl) {
