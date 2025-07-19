@@ -955,34 +955,7 @@
             color: var(--dark-text);
         }
         
-        .what-next-section {
-            background: linear-gradient(135deg, var(--mint-accent-light), rgba(236, 240, 241, 0.5));
-            border: 1px solid var(--border-accent);
-            border-radius: 10px;
-        }
-        .what-next-section .badge.bg-success {
-            background-color: var(--success-color) !important;
-        }
         
-        .what-next-section .badge.bg-primary {
-            background-color: var(--mint-accent) !important;
-        }
-        
-        .what-next-section .badge.bg-secondary {
-            background-color: var(--mint-secondary) !important;
-        }
-        .what-next-section ul li {
-            color: var(--dark-text);
-            margin-bottom: 0.25rem;
-        }
-        
-        .what-next-section strong {
-            color: var(--mint-primary);
-        }
-        
-        .brand-section {
-            color: var(--light-text);
-        }
     </style>
 </head>
 
@@ -1000,7 +973,7 @@
                 <div class="progress-fill" id="progressFill"></div>
             </div>
             <div class="progress-text">
-                <span id="currentStep">1</span> of <span id="totalSteps">12</span>
+                <span id="currentStep">1</span> of <span id="totalSteps">11</span>
             </div>
         </div>
 
@@ -1026,39 +999,9 @@
         <p class="mb-3">
             Your personalized risk assessment report has been successfully sent to your email. This marks an important first step in understanding your investment preferences and building a portfolio tailored to your financial goals.
         </p>
-        <p class="mb-3">
-            Our experienced advisory team will review your profile and reach out to you within the next 2-3 business days to discuss your results and explore investment opportunities that align with your risk tolerance.
-        </p>
-        <p class="mb-0">
-            We're excited to partner with you on your investment journey and help you achieve your financial aspirations.
-        </p>
     </div>
     
-    <div class="what-next-section mt-4 p-3 rounded">
-        <p class="mb-2"><strong>What's Next?</strong></p>
-        <ul class="list-unstyled mb-0">
-            <li class="mb-2">
-                <span class="badge bg-success rounded-pill me-2">1</span>
-                <strong>Email Confirmation:</strong> Your detailed risk assessment report has been sent to your inbox
-            </li>
-            <li class="mb-2">
-                <span class="badge bg-primary rounded-pill me-2">2</span>
-                <strong>Advisory Consultation:</strong> Our team will reach out within 2-3 business days to discuss your profile
-            </li>
-            <li class="mb-0">
-                <span class="badge bg-secondary rounded-pill me-2">3</span>
-                <strong>Portfolio Strategy:</strong> We'll develop personalized investment recommendations aligned with your goals
-            </li>
-        </ul>
     </div>
-    
-    <hr class="my-4">
-    
-    <p class="brand-section mb-0">
-        <strong class="mint-brand">– Mint Financials</strong><br>
-        <small>Your Trusted Investment Partner</small>
-    </p>
-</div>
 
 
     </div>
@@ -1623,11 +1566,11 @@
 
                 // Still show results locally even if submission failed
                 currentQuestion++;
-                showResult(totalScore, profile, false); // Pass false to indicate submission failed
+                //showResult(totalScore, profile, false); // Pass false to indicate submission failed
             }
         }
 
-
+//tentaively stopped from showing result card at the end
         function showResult(score, profile, submissionSuccess = true) {
             document.getElementById('questionnaire').classList.add('hidden');
             // Hide the main header when showing results
