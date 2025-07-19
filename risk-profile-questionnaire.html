@@ -872,6 +872,107 @@
                 transform: rotate(360deg);
             }
         }
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You Section</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --mint-primary: #2c3e50;
+            --mint-secondary: #34495e;
+            --mint-accent: #3498db;
+            --mint-accent-light: rgba(52, 152, 219, 0.2);
+            --mint-light: #ecf0f1;
+            --dark-text: #1a1a1a;
+            --light-text: #6b7280;
+            --error-light: #FEF2F2;
+            --error-accent: #F87171;
+            --shadow-accent: rgba(52, 152, 219, 0.08);
+            --border-accent: rgba(52, 152, 219, 0.1);
+            --shadow-accent-light: rgba(52, 152, 219, 0.1);
+            --shadow-accent-medium: rgba(52, 152, 219, 0.15);
+            --shadow-accent-dark: rgba(52, 152, 219, 0.3);
+            --border-light: #e5e7eb;
+            --success-color: #10b981;
+            --success-dark: #059669;
+            --shadow-success: rgba(16, 185, 129, 0.3);
+            --spinner-bg: rgba(52, 152, 219, 0.3);
+        }
+        
+        .thank-you-container {
+            background: linear-gradient(135deg, var(--mint-light) 0%, #f8fafc 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px var(--shadow-accent);
+            border: 1px solid var(--border-accent);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--success-color), var(--success-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 16px var(--shadow-success);
+        }
+        
+        .success-icon i {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .mint-brand {
+            color: var(--mint-primary);
+            font-weight: bold;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .thank-you-container h2 {
+            color: var(--mint-primary);
+        }
+        
+        .thank-you-container .lead {
+            color: var(--dark-text);
+        }
+        
+        .what-next-section {
+            background: linear-gradient(135deg, var(--mint-accent-light), rgba(236, 240, 241, 0.5));
+            border: 1px solid var(--border-accent);
+            border-radius: 10px;
+        }
+        
+        .what-next-section ul li {
+            color: var(--dark-text);
+            margin-bottom: 0.25rem;
+        }
+        
+        .what-next-section strong {
+            color: var(--mint-primary);
+        }
+        
+        .brand-section {
+            color: var(--light-text);
+        }
     </style>
 </head>
 
@@ -900,23 +1001,49 @@
         <div id="result" class="hidden">
             <!-- Results will be shown here -->
         </div>
-        <div id="thankYouSection" class="hidden text-center p-4">
-            <h2 class="mb-3">Thank You for Completing the Risk Profile Assessment</h2>
-            <p class="lead">
-                We appreciate you taking the time to complete the Risk Profile Questionnaire. Your responses have been successfully recorded and your personalized risk assessment report has been emailed to you.
-            </p>
-            <p>
-                This assessment marks a significant step in understanding your investment preferences and financial goals. Our team will review your profile and connect with you shortly to discuss the next steps in crafting a portfolio that aligns with your aspirations.
-            </p>
-            <p>
-                We’re excited to partner with you on your investment journey.
-            </p>
-            <p><strong>– Mint Financials</strong></p>
-        </div>
+        <div id="thank-you-container" class="thank-you-container hidden text-center p-5 mt-4 fade-in" style="display: none;">
+    <div class="success-icon">
+        <i class="fas fa-check"></i>
+    </div>
+    
+    <h2 class="mb-4">Thank You!</h2>
+    
+    <div id="thank-you-message" class="lead mb-4">
+        <!-- Default message - will be replaced by PHP response -->
+        <p class="mb-3">
+            Thank you for completing your Risk Profile Assessment! 🎉
+        </p>
+        <p class="mb-3">
+            Your personalized risk assessment report has been successfully sent to your email. This marks an important first step in understanding your investment preferences and building a portfolio tailored to your financial goals.
+        </p>
+        <p class="mb-3">
+            Our experienced advisory team will review your profile and reach out to you within the next 2-3 business days to discuss your results and explore investment opportunities that align with your risk tolerance.
+        </p>
+        <p class="mb-0">
+            We're excited to partner with you on your investment journey and help you achieve your financial aspirations.
+        </p>
+    </div>
+    
+    <div class="what-next-section mt-4 p-3 rounded">
+        <p class="mb-2"><strong>What's Next?</strong></p>
+        <ul class="list-unstyled mb-0">
+            <li>✅ Check your email for the detailed risk assessment report</li>
+            <li>📞 Our team will contact you within 2-3 business days</li>
+            <li>💼 We'll discuss personalized investment strategies</li>
+        </ul>
+    </div>
+    
+    <hr class="my-4">
+    
+    <p class="brand-section mb-0">
+        <strong class="mint-brand">– Mint Financials</strong><br>
+        <small>Your Trusted Investment Partner</small>
+    </p>
+</div>
 
 
     </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
@@ -1428,14 +1555,29 @@
                 });
                 const result = await response.json();
                 if (result.success) {
-                    if (result.signingUrl && result.signingUrl !== null && result.signingUrl !== '') {
-                        window.location.href = result.signingUrl; // Redirect to leegality if directly it. 
-                    } else {
-                        // Show thank you message on the same page
-                        document.getElementById('thank-you-container').style.display = 'block';
-                        document.getElementById('thank-you-message').innerText = result.thankYouMessage || 'Thank you for submitting the form.';
-                    }
+                if (result.signingUrl && result.signingUrl !== null && result.signingUrl !== '') {
+                    window.location.href = result.signingUrl;
                 } else {
+                    // Hide other sections
+                    document.getElementById('questionnaire').style.display = 'none';
+                    document.getElementById('result').style.display = 'none';
+                    
+                    // Show thank you message
+                    const thankYouContainer = document.getElementById('thank-you-container');
+                    const thankYouMessage = document.getElementById('thank-you-message');
+                    
+                    thankYouContainer.style.display = 'block';
+                    thankYouContainer.classList.remove('hidden');
+                    
+                    // Update message if provided by PHP
+                    if (result.thankYouMessage) {
+                        thankYouMessage.innerHTML = `<p class="lead">${result.thankYouMessage}</p>`;
+                    }
+                    
+                    // Scroll to thank you section
+                    thankYouContainer.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
                     alert('Error: ' + result.message);
                 }
 
