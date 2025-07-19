@@ -1396,8 +1396,13 @@
                 },
                 submissionTimestamp: new Date().toISOString()
             };
-
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get("source"); // "mint" or null
             try {
+                // Add source if it exists
+                if (source) {
+                    submissionData.source = source;
+                }
                 // Submit data to server
                 const response = await fetch('https://mintfinancials.in/risk-profile-handler.php', {
                     method: 'POST',
