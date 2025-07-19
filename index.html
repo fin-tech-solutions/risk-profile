@@ -330,8 +330,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
         function startAssessment() {
-            // Replace with your actual questionnaire URL
-            window.location.href = 'risk-profile-questionnaire.html';
+            const urlParams = new URLSearchParams(window.location.search);
+            const source = urlParams.get("source");
+
+            let nextPage = 'risk-profile-questionnaire.html';
+
+            // If ?source=mint exists, append it to the next page
+            if (source) {
+                nextPage += '?source=' + encodeURIComponent(source);
+            }
+
+            window.location.href = nextPage;
         }
     </script>
 </body>
