@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Complete your investment risk profile assessment - A secure, simple process to understand your investment preferences">
+    <meta name="keywords" content="investment risk assessment, portfolio management, investor profiling">
+    <meta name="author" content="Investment Advisory Services">
+    <title>Investment Risk Profile Assessment | Secure & Confidential</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --mint-primary: #06402b;
+            --mint-secondary: #053320;
+            --mint-accent: #06402b;
+            --mint-light: #f9fafb;
+            --dark-text: #000000;
+            --light-text: #6b7280;
+            --error-light: #FEF2F2;
+            --error-accent: #F87171;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Poppins", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: linear-gradient(135deg, var(--mint-light) 0%, #fff 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .header h1 {
+            color: var(--mint-primary);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--light-text);
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+
+        .process-steps {
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .process-title {
+            text-align: center;
+            color: var(--mint-primary);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--mint-light);
+            border-radius: 12px;
+            transition: transform 0.2s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-2px);
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            background: var(--mint-accent);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            color: var(--mint-primary);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-content p {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .security-info {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+        }
+
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: var(--mint-light);
+            border-radius: 10px;
+        }
+
+        .security-icon {
+            background: var(--mint-accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .security-text {
+            color: var(--dark-text);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .time-estimate {
+            text-align: center;
+            background: linear-gradient(135deg, var(--mint-accent), var(--mint-secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .time-estimate h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-estimate p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 2.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, var(--mint-accent), var(--mint-secondary));
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 64, 43, 0.25);
+            /* Adjusted shadow tint */
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 64, 43, 0.35);
+        }
+
+        .disclaimer {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.85rem;
+            margin-top: 1.5rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .process-steps,
+            .security-info,
+            .cta-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<!-- this is Mint's risk profile info page which is the first page before starting to take questionnaire -->
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Investment Risk Assessment</h1>
+            <p>Understand your investment preferences through our secure profiling process</p>
+        </div>
+
+        <div class="process-steps">
+            <h2 class="process-title">Simple 3-Step Process</h2>
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Complete Risk Questionnaire</h4>
+                    <p>Answer questions about your investment goals and risk tolerance</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Provide Personal Details</h4>
+                    <p>Share basic information required for your investment profile</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Advisor Review</h4>
+                    <p>Smart recommendations, tailored to your risk profile, let your advisor build a portfolio that
+                        fits you just right.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="time-estimate">
+            <h3><i class="fas fa-clock me-2"></i>Estimated Time: 5-7 Minutes</h3>
+            <p>Quick and straightforward process designed for your convenience</p>
+        </div>
+
+        <div class="cta-section">
+            <button class="start-btn" onclick="startAssessment()">
+                <i class="fas fa-play me-2"></i>Start Risk Assessment
+            </button>
+            <div class="disclaimer">
+                This assessment helps us understand your investment preferences better.<br>
+                All information provided is confidential and used solely for investment advisory purposes.
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function startAssessment() {
+
+            window.location.href = 'https://fin-tech-solutions.github.io/risk-profile/risk-profile-questionnaire.html?source=mint';
+        }
+    </script>
+</body>
+
+</html>
